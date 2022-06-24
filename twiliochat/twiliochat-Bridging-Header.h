@@ -3,5 +3,6 @@
 
 #import <TwilioChatClient/TwilioChatClient.h>
 #import <SWRevealViewController/SWRevealViewController.h>
+#import "ProvisioningProfileInspector.h"
 
 #endif

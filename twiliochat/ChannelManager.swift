@@ -36,6 +36,7 @@ class ChannelManager: NSObject {
                     self.createGeneralChatRoomWithCompletion { succeeded in
                         if (succeeded) {
                             self.joinGeneralChatRoomWithUniqueName(name: uniqueName, completion: completion)
+                            
                             return
                         }
                         
@@ -45,11 +46,12 @@ class ChannelManager: NSObject {
             }
         }
     }
-    
+
     func joinGeneralChatRoomWithUniqueName(name: String?, completion: @escaping (Bool) -> Void) {
         generalChannel.join { result in
             if ((result.isSuccessful()) && name != nil) {
                 self.setGeneralChatRoomUniqueNameWithCompletion(completion: completion)
+                
                 return
             }
             completion((result.isSuccessful()))
@@ -138,9 +140,9 @@ class ChannelManager: NSObject {
             TCHChannelOptionFriendlyName: name,
             TCHChannelOptionType: TCHChannelType.public.rawValue
         ] as [String : Any]
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true;
+      
         self.channelsList?.createChannel(options: channelOptions) { result, channel in
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+           
             completion((result.isSuccessful()), channel)
         }
     }

@@ -4,10 +4,12 @@ class SessionManager {
     static let UsernameKey: String = "username"
     static let IsLoggedInKey: String = "loggedIn"
     static let defaults = UserDefaults.standard
+    static let RoleKey: String = "Channel Admin"
     
     class func loginWithUsername(username:String) {
         defaults.set(username, forKey: UsernameKey)
         defaults.set(true, forKey: IsLoggedInKey)
+        //defaults.set(userRoll, forKey: RoleKey)
         
         defaults.synchronize()
     }
@@ -32,4 +34,5 @@ class SessionManager {
         }
         return ""
     }
+
 }

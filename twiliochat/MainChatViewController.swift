@@ -138,24 +138,12 @@ class MainChatViewController: SLKTextViewController {
         return cell
     }
     
-    func joinChannel() {
-        setViewOnHold(onHold: true)
-        
-        if channel.status != .joined {
-            channel.join { result in
-                print("Channel Joined")
-            }
-            return
-        }
-        
-        loadMessages()
-        setViewOnHold(onHold: false)
-    }
+    
     
     // Disable user input and show activity indicator
     func setViewOnHold(onHold: Bool) {
         self.isTextInputbarHidden = onHold;
-        UIApplication.shared.isNetworkActivityIndicatorVisible = onHold;
+        //UIApplication.shared.isNetworkActivityIndicatorVisible = onHold;
     }
     
     override func didPressRightButton(_ sender: Any!) {
@@ -204,7 +192,25 @@ class MainChatViewController: SLKTextViewController {
         }
     }
     
+    func joinChannel() {
+        setViewOnHold(onHold: true)
+       
+        if channel.status != .joined {
+            channel.join { result in
+                print("Channel Joined")
+                if (result.isSuccessful()) {
+                    
+                }
+            }
+            return
+        }
+        
+        loadMessages()
+        setViewOnHold(onHold: false)
+    }
+    
     func leaveChannel() {
+        /*
         channel.leave { result in
             if (result.isSuccessful()) {
                 let menuViewController = self.revealViewController().rearViewController as! MenuViewController
@@ -212,6 +218,20 @@ class MainChatViewController: SLKTextViewController {
                 self.revealViewController().rearViewController.performSegue(withIdentifier: MainChatViewController.TWCOpenGeneralChannelSegue, sender: nil)
             }
         }
+         
+        */
+        
+        
+        channel.destroy(completion: { result in
+            print("result")
+            print(result)
+            if (result.isSuccessful()) {
+                let menuViewController = self.revealViewController().rearViewController as! MenuViewController
+                menuViewController.deselectSelectedChannel()
+                //self.revealViewController().rearViewController.performSegue(withIdentifier: MainChatViewController.TWCOpenGeneralChannelSegue, sender: nil)
+            }
+        })
+         
     }
     
     // MARK: - Actions

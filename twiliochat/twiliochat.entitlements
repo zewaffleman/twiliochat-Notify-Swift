@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>TokenRequestUrl</key>
-	<string>https://3b46afb96f90.au.ngrok.io/token</string>
+	<key>aps-environment</key>
+	<string>development</string>
 </dict>
 </plist>

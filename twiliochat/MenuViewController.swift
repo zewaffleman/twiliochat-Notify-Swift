@@ -54,8 +54,11 @@ class MenuViewController: UIViewController {
     
     func deselectSelectedChannel() {
         let selectedRow = tableView.indexPathForSelectedRow
+        //Not selected cause selectedRow isnt right
         if let row = selectedRow {
             tableView.deselectRow(at: row, animated: true)
+            //tableView.deleteRows(at: IndexPath(row: row, section: 0), with: <#T##UITableView.RowAnimation#>)
+            //tableView.deleteRows(at: [row], with: .automatic)
         }
     }
     
@@ -71,6 +74,7 @@ class MenuViewController: UIViewController {
                                                 })
         }
     }
+    
     
     // MARK: Logout
     
@@ -104,7 +108,25 @@ class MenuViewController: UIViewController {
     
     // MARK: - Navigation
     
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == MenuViewController.TWCOpenChannelSegue {
+            let indexPath = sender as! NSIndexPath
+            print("here")
+            print(indexPath.row)
+            let channelDescriptor = ChannelManager.sharedManager.channelDescriptors![indexPath.row] as! TCHChannelDescriptor
+            let navigationController = segue.destination as! UINavigationController
+            
+            channelDescriptor.channel { (result, channel) in
+                if let channel = channel {
+                    (navigationController.visibleViewController as! MainChatViewController).channel = channel
+               }
+            }
+        }
+    }
+    /*
+    //dummy mock up allways goes to a new one
+    func adhocChat(for segue: UIStoryboardSegue, sender: Any?){
         if segue.identifier == MenuViewController.TWCOpenChannelSegue {
             let indexPath = sender as! NSIndexPath
             
@@ -114,12 +136,11 @@ class MenuViewController: UIViewController {
             channelDescriptor.channel { (result, channel) in
                 if let channel = channel {
                     (navigationController.visibleViewController as! MainChatViewController).channel = channel
-               }
+                }
             }
-            
         }
     }
-    
+    */
     // MARK: - Style
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -181,6 +202,7 @@ extension MenuViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: MenuViewController.TWCOpenChannelSegue, sender: indexPath)
+        print("selected a new chat")
     }
 }
 
